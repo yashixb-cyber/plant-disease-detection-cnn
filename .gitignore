@@ -1,0 +1,9 @@
+# Dataset and outputs are large - they live in Google Drive / are downloaded by the notebooks
+data/
+outputs/
+*.keras
+*.h5
+*.npy
+__pycache__/
+.ipynb_checkpoints/
+.DS_Store
