@@ -55,12 +55,29 @@ Leaf image → Preprocessing → CNN → Feature extraction → Classification �
 
 ## 📈 Results
 
-> Filled in from `results/model_comparison.csv` and `results/field_test_plantdoc.csv` after running Notebooks 2 and 3.
+Test set: 8,146 PlantVillage images never seen during training (full numbers in [`results/`](results/)).
 
-| Model | Test accuracy | Macro F1 | Field accuracy (PlantDoc) | Parameters |
-|---|---|---|---|---|
-| Basic CNN | _TBD_ | _TBD_ | _TBD_ | _TBD_ |
-| MobileNetV2 | _TBD_ | _TBD_ | _TBD_ | _TBD_ |
+| Model | Test accuracy | Top-3 accuracy | Macro precision | Macro recall | Macro F1 | Parameters | Training time (T4) |
+|---|---|---|---|---|---|---|---|
+| Basic CNN (scratch) | 93.24% | 99.55% | 92.49% | 92.70% | 92.03% | 1.06 M | 59 min |
+| **MobileNetV2 (transfer)** | **96.80%** | **99.63%** | **96.32%** | **96.48%** | **96.32%** | 2.31 M | 23 min |
+
+**Key findings**
+- Transfer learning wins: **+3.6 points accuracy and +4.3 points macro F1**, in **less than half the training time**.
+- MobileNetV2 scores **F1 ≥ 0.96 on 29 of 38 classes**, and 5 classes are perfect (1.00).
+- The hardest classes are diseases with **similar-looking symptoms on the same crop**, exactly the challenge in our problem statement:
+
+| Hardest classes (MobileNetV2) | F1 | Basic CNN F1 |
+|---|---|---|
+| Tomato – Early blight | 0.815 | 0.824 |
+| Tomato – Target spot | 0.829 | 0.740 |
+| Corn – Cercospora / Gray leaf spot | 0.871 | 0.725 |
+| Tomato – Septoria leaf spot | 0.903 | 0.920 |
+| Tomato – Late blight | 0.908 | 0.877 |
+
+- Top-3 accuracy is above 99.5% for both models. When the top prediction is wrong, the correct disease is almost always among the next two guesses, so the app shows the top 3.
+
+**Field test (PlantDoc real-world photos):** _run Notebook 3 to fill in._
 
 ---
 
