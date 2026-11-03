@@ -64,7 +64,7 @@ Test set: 8,146 PlantVillage images never seen during training (full numbers in 
 
 **Key findings**
 - Transfer learning wins: **+3.6 points accuracy and +4.3 points macro F1**, in **less than half the training time**.
-- MobileNetV2 scores **F1 ≥ 0.96 on 29 of 38 classes**, and 5 classes are perfect (1.00).
+- MobileNetV2 scores **F1 ≥ 0.96 on 27 of 38 classes**, and 4 classes are perfect (1.00).
 - The hardest classes are diseases with **similar-looking symptoms on the same crop**, exactly the challenge in our problem statement:
 
 | Hardest classes (MobileNetV2) | F1 | Basic CNN F1 |
