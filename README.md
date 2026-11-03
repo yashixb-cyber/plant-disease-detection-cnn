@@ -77,7 +77,18 @@ Test set: 8,146 PlantVillage images never seen during training (full numbers in 
 
 - Top-3 accuracy is above 99.5% for both models. When the top prediction is wrong, the correct disease is almost always among the next two guesses, so the app shows the top 3.
 
-**Field test (PlantDoc real-world photos):** _run Notebook 3 to fill in._
+### Lab vs real-world field test (PlantDoc)
+We tested both models, **without retraining**, on PlantDoc: real photos from fields and the internet with soil, hands, shadows and several leaves per photo.
+
+| Model | Lab accuracy (PlantVillage) | Field accuracy (PlantDoc) | Field top-3 | Field macro F1 | Correct crop |
+|---|---|---|---|---|---|
+| Basic CNN | 93.24% | 7.29% | 22.65% | 6.03% | 24.67% |
+| **MobileNetV2** | **96.80%** | **20.09%** | **39.45%** | **18.57%** | **46.16%** |
+
+- Accuracy falls sharply on field photos (**domain shift**). The models partly learned the *lab photo style* (one leaf, plain grey background, even lighting), not only the disease. Mohanty et al. (2016) reported the same effect.
+- Transfer learning **generalises far better**: MobileNetV2 is **2.8× more accurate** than the scratch CNN on field photos (20.1% vs 7.3%), because its ImageNet features were learned from varied, real-world images.
+- Both are well above random guessing (1 in 38 = 2.6%). MobileNetV2 identifies the crop correctly 46% of the time and has the right disease in its top 3 for 39% of photos.
+- **Conclusion:** the system is a strong lab-validated prototype. Real farm deployment needs field images in training (see Future work).
 
 ---
 
@@ -109,8 +120,15 @@ pip install -r requirements.txt
 python app/app.py            # opens http://127.0.0.1:7860
 ```
 
+## 🔭 Future work
+1. Fine-tune on a mix of PlantVillage and real field images (e.g. part of PlantDoc, local farm photos).
+2. Detect and crop the leaf first (object detection / segmentation), then classify.
+3. Stronger augmentation: random backgrounds, blur, shadows and lighting changes.
+4. Longer fine-tuning of more MobileNetV2 layers, or larger models such as EfficientNet.
+5. Convert to TensorFlow Lite for an offline mobile app.
+
 ## ⚠️ Limitations
-- PlantVillage images are lab photos (one leaf, plain background), so accuracy on real farm photos is much lower (see the PlantDoc test in Notebook 3).
+- PlantVillage images are lab photos (one leaf, plain background), so accuracy on real farm photos is much lower: 20.1% for MobileNetV2 on PlantDoc vs 96.8% in the lab.
 - The model only knows the 38 classes it was trained on; any other plant or disease is forced into one of them.
 - It is a decision-support prototype, not a replacement for an agricultural expert.
 
