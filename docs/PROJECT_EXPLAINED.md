@@ -121,12 +121,3 @@ Built with **Gradio**: upload a photo and see the predicted disease, confidence 
 | Matplotlib, Seaborn | graphs and confusion matrices |
 | Gradio | web app |
 | Git / GitHub | storing and sharing the code |
-
----
-
-## 7. Who-does-what suggestion for the viva
-- **Swayam**: dataset, preprocessing, augmentation (Notebook 1)
-- **Yash Bhalotia**: CNN architecture, training, transfer learning (Notebook 2)
-- **Yash Purwar**: evaluation metrics, field test, web app (Notebooks 2–3)
-
-Everyone should still read this whole file and `VIVA_QA.md`.

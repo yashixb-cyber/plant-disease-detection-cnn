@@ -1,7 +1,6 @@
 # 🌿 Plant Disease Detection using Convolutional Neural Networks
 
-**Artificial Neural Networks & Deep Learning — PBL (AI253IA), RV College of Engineering**
-Swayam Goyal (1RV24CI131) · Yash Bhalotia (1RV24CI142) · Yash Purwar (1RV24CI143)
+**Artificial Neural Networks & Deep Learning — PBL (AI253IA)**
 
 A deep-learning system that looks at a photo of a plant leaf and predicts whether it is **healthy** or which **disease** it has, out of **38 classes across 14 crops**. We compare a **CNN built from scratch** with **MobileNetV2 transfer learning**, evaluate both with accuracy, precision, recall, F1 and confusion matrices, test them on **real field photos**, and serve the best model in a **web app**.
 
@@ -30,7 +29,7 @@ In each notebook: **Runtime → Change runtime type → T4 GPU**, then **Runtime
 | **Split** | 70% train / 15% validation / 15% test, stratified, seed 42 |
 | **Field test set** | PlantDoc (Singh et al., 2020): ~2,600 real-world photos from 28 matching classes ([github](https://github.com/pratikkayal/PlantDoc-Dataset)) |
 
-The notebooks download both datasets automatically. Nothing needs to be uploaded by hand.
+The notebooks download both datasets automatically. Nothing needs to be uploaded by hand. Full sources, citations, the class list and a download script are in [`data/`](data/README.md).
 
 ---
 
@@ -104,8 +103,10 @@ We tested both models, **without retraining**, on PlantDoc: real photos from fie
 │   └── examples/                            # sample leaf images for the app
 ├── docs/
 │   ├── COLAB_GUIDE.md                       # click-by-click instructions
-│   ├── PROJECT_EXPLAINED.md                 # the whole project in simple language
-│   └── VIVA_QA.md                           # likely viva questions with answers
+│   └── PROJECT_EXPLAINED.md                 # the whole project in simple language
+├── data/
+│   ├── README.md                            # dataset sources, citations, class list
+│   └── download_data.py                     # download the datasets into this folder
 ├── models/      # trained .keras files go here (download from Drive; not stored in git)
 ├── results/     # metrics CSVs and figures (copy from Drive after training)
 └── requirements.txt

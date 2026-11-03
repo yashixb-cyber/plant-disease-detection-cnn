@@ -1,5 +1,7 @@
 # Dataset and outputs are large - they live in Google Drive / are downloaded by the notebooks
-data/
+data/*
+!data/README.md
+!data/download_data.py
 outputs/
 *.keras
 *.h5
