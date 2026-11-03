@@ -75,6 +75,7 @@ Or just send the CSV files to Claude and ask it to update the repo.
 
 | Problem | Fix |
 |---|---|
+| `MessageError: credential propagation was unsuccessful` | Google Drive permission didn't complete. `Runtime → Restart session`, run the Setup cell again, choose the **same account** as Colab, and on the permission screen tick **Select all** before *Continue*. Signed into several Google accounts? Use an Incognito window. (The notebook now continues without Drive if this fails, but then results are lost when the session ends.) |
 | `GPU available: []` | You forgot to select the T4 GPU: `Runtime → Change runtime type`, then *Run all* again |
 | Download step very slow / fails | Run that cell again. If GitHub is blocked on your network, try a different network or a phone hotspot |
 | `No trained models found` in Notebook 3 | Run Notebook 2 completely first, with the same Google account |
