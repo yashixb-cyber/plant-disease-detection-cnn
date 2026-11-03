@@ -3,19 +3,21 @@ Plant Disease Detection - web app (run on your own laptop)
 
 Usage:
     pip install -r requirements.txt
-    python app/app.py                         # uses models/mobilenetv2.keras
+    python app/app.py                         # uses models/mobilenetv2_field.keras if present,
+                                              # otherwise models/mobilenetv2.keras
     python app/app.py --model models/basic_cnn.keras
     python app/app.py --share                 # also create a public link
 
 Before running, download from Google Drive (MyDrive/plant-disease-project/models/):
-    mobilenetv2.keras, basic_cnn.keras, class_names.json  ->  put them in the  models/  folder.
+    mobilenetv2_field.keras (from Notebook 4, recommended), mobilenetv2.keras, basic_cnn.keras,
+    class_names.json  ->  put them in the  models/  folder.
 """
 import argparse
 import json
 import os
 
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageOps
 
 IMG_SIZE = 224
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -30,14 +32,17 @@ def pretty_name(folder_name):
 
 
 def preprocess(pil_img):
-    """Same as training: RGB, 224x224, pixel values 0-255 (the model normalises internally)."""
-    img = pil_img.convert('RGB').resize((IMG_SIZE, IMG_SIZE), Image.BILINEAR)
+    """Same as training: fix phone-photo rotation, RGB, 224x224, pixel values 0-255
+    (the model normalises internally)."""
+    img = ImageOps.exif_transpose(pil_img).convert('RGB').resize((IMG_SIZE, IMG_SIZE), Image.BILINEAR)
     return np.asarray(img, dtype=np.float32)[None, ...]
 
 
 def main():
     parser = argparse.ArgumentParser(description='Plant disease detection web app')
-    parser.add_argument('--model', default=os.path.join(ROOT, 'models', 'mobilenetv2.keras'))
+    field_model = os.path.join(ROOT, 'models', 'mobilenetv2_field.keras')
+    default_model = field_model if os.path.exists(field_model) else os.path.join(ROOT, 'models', 'mobilenetv2.keras')
+    parser.add_argument('--model', default=default_model)
     parser.add_argument('--classes', default=os.path.join(ROOT, 'models', 'class_names.json'))
     parser.add_argument('--share', action='store_true', help='create a public gradio.live link')
     args = parser.parse_args()

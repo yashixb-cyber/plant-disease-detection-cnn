@@ -13,6 +13,7 @@ A deep-learning system that looks at a photo of a plant leaf and predicts whethe
 | 1. Dataset & preprocessing | Phase 1 | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yashixb-cyber/plant-disease-detection-cnn/blob/main/notebooks/01_dataset_and_preprocessing.ipynb) |
 | 2. Training & evaluation | Phase 2 | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yashixb-cyber/plant-disease-detection-cnn/blob/main/notebooks/02_train_and_evaluate.ipynb) |
 | 3. Web app & field test | Phase 3 | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yashixb-cyber/plant-disease-detection-cnn/blob/main/notebooks/03_web_app_and_field_test.ipynb) |
+| 4. Field fine-tuning (real-photo improvement) | Extension | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yashixb-cyber/plant-disease-detection-cnn/blob/main/notebooks/04_field_finetuning.ipynb) |
 
 In each notebook: **Runtime → Change runtime type → T4 GPU**, then **Runtime → Run all**. Full step-by-step guide: [`docs/COLAB_GUIDE.md`](docs/COLAB_GUIDE.md).
 
@@ -87,7 +88,12 @@ We tested both models, **without retraining**, on PlantDoc: real photos from fie
 - Accuracy falls sharply on field photos (**domain shift**). The models partly learned the *lab photo style* (one leaf, plain grey background, even lighting), not only the disease. Mohanty et al. (2016) reported the same effect.
 - Transfer learning **generalises far better**: MobileNetV2 is **2.8× more accurate** than the scratch CNN on field photos (20.1% vs 7.3%), because its ImageNet features were learned from varied, real-world images.
 - Both are well above random guessing (1 in 38 = 2.6%). MobileNetV2 identifies the crop correctly 46% of the time and has the right disease in its top 3 for 39% of photos.
-- **Conclusion:** the system is a strong lab-validated prototype. Real farm deployment needs field images in training (see Future work).
+- **Conclusion:** the system is a strong lab-validated prototype. Real farm deployment needs field images in training.
+
+### Improving real-world accuracy (Notebook 4)
+To reduce domain shift, MobileNetV2 is fine-tuned on a mix of **PlantDoc training photos** (real field/internet images) and **150 PlantVillage photos per class** (so lab knowledge is kept), then re-tested on the **separate PlantDoc test folder**.
+
+_Results: run Notebook 4 to fill in (`results/field_finetune_results.csv`)._
 
 ---
 
@@ -97,7 +103,8 @@ We tested both models, **without retraining**, on PlantDoc: real photos from fie
 ├── notebooks/
 │   ├── 01_dataset_and_preprocessing.ipynb   # Phase 1: download, explore, split, preprocess
 │   ├── 02_train_and_evaluate.ipynb          # Phase 2: CNN + MobileNetV2, metrics, comparison
-│   └── 03_web_app_and_field_test.ipynb      # Phase 3: Gradio app + PlantDoc real-world test
+│   ├── 03_web_app_and_field_test.ipynb      # Phase 3: Gradio app + PlantDoc real-world test
+│   └── 04_field_finetuning.ipynb            # Extension: fine-tune on real field photos
 ├── app/
 │   ├── app.py                               # run the web app on your own laptop
 │   └── examples/                            # sample leaf images for the app
@@ -122,7 +129,7 @@ python app/app.py            # opens http://127.0.0.1:7860
 ```
 
 ## 🔭 Future work
-1. Fine-tune on a mix of PlantVillage and real field images (e.g. part of PlantDoc, local farm photos).
+1. Collect more real field images (local farms) to extend the field fine-tuning in Notebook 4.
 2. Detect and crop the leaf first (object detection / segmentation), then classify.
 3. Stronger augmentation: random backgrounds, blur, shadows and lighting changes.
 4. Longer fine-tuning of more MobileNetV2 layers, or larger models such as EfficientNet.
