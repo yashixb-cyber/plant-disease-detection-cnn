@@ -59,19 +59,6 @@ Free Colab has a daily GPU limit. Wait a few hours, or try another teammate's Go
 
 ---
 
-## Part 3b: Notebook 4 (improving real-world accuracy). About 25–35 minutes.
-
-Use this if the model predicts real/internet photos wrongly. It fine-tunes MobileNetV2 on real field photos.
-
-1. Open **Notebook 4** with its Colab badge, select **T4 GPU**, and click **Run all** (allow Drive with **Select all**).
-2. At the end, a **before vs after** table shows lab accuracy and field accuracy for the old and new model.
-3. The improved model is saved as `models/mobilenetv2_field.keras` in Drive.
-4. Run **Notebook 3** again. The app now loads **"MobileNetV2 + field fine-tuning"** first and uses it by default.
-
-> Tip for testing the app: real photos still work best when they show **one leaf** that fills most of the picture.
-
----
-
 ## Part 4: Put the results into GitHub (after training)
 
 1. In Google Drive, open `plant-disease-project/results/`, select everything, and **Download**.
